@@ -20,6 +20,17 @@ $sudo apt-get install curl
 $curl https://raw.githubusercontent.com/tlkh/setup-cheatsheets/master/install_opencv.sh | sudo bash
 Thanks to timothy liu for making opencv setups more painless
 
+if still unsuccessful, follow this guide to install and compile opencv on raspberry pi.
+https://tutorials-raspberrypi.com/installing-opencv-on-the-raspberry-pi/
+When creating the build, use this(the one on the website causes error):
+
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_C_EXAMPLES=ON \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
+    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-3.0.0/modules \
+    -D BUILD_EXAMPLES=ON ..
+
 
 Basig Git Commands
 good tutorial here http://rogerdudler.github.io/git-guide/
