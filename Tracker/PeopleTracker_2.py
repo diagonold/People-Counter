@@ -16,7 +16,7 @@ import datetime
 
 
 class CentroidTracker(object):
-    def __init__(self, maxFrames = 100, Dist = 2000, seats = 10):
+    def __init__(self, maxFrames = 300, Dist = 2000, seats = 10):
         self.new = [] #list to help us check whether newcentroids are  added to the oldCentroid
         self.Centroids = {}
         self.lostCentroids = {}
