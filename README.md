@@ -5,6 +5,7 @@ Repository for 1D Digital World 2019.
 Make sure to install necessary packages:
 
 Kivy
+
 $pip install kivy
 
 Numpy
@@ -12,7 +13,9 @@ $pip install numpy
 
 Opencv2
 for opencv installation on raspberry pi, run this commands in the terminal
+
 $sudo apt-get install curl
+
 $curl https://raw.githubusercontent.com/tlkh/setup-cheatsheets/master/install_opencv.sh | sudo bash
 Thanks to timothy liu for making opencv setups more painless
 
