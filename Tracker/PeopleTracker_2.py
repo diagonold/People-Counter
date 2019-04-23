@@ -16,7 +16,7 @@ import datetime
 
 
 class CentroidTracker(object):
-    def __init__(self, maxFrames = 100, Dist = 100, seats = 100):
+    def __init__(self, maxFrames = 100, Dist = 2000, seats = 10):
         self.new = [] #list to help us check whether newcentroids are  added to the oldCentroid
         self.Centroids = {}
         self.lostCentroids = {}
@@ -142,17 +142,23 @@ class Point:
 #%%INSTANTIATE YOUR GLOBAL VARIABLES FIRST
 #head_cascade = cv2.CascadeClassifier('HS.xml')
 cap = cv2.VideoCapture(0)
-head_cascade = cv2.CascadeClassifier('haarcascade_upperbody.xml')
+#head_cascade = cv2.CascadeClassifier('haarcascade_upperbody.xml')
 ct = CentroidTracker()
 boundary = Point()
 area_of_detection = 20000
+subtractor = cv2.createBackgroundSubtractorMOG2(history = 80 , varThreshold = 15 ,detectShadows = False)
 #%%
 counter = 0
 while cap.isOpened():
-    
     _,frame = cap.read()   #Read every frame
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    heads = head_cascade.detectMultiScale(gray)
+    mask = subtractor.apply(frame)
+    kernel = np.ones((3,3), np.uint8)
+	
+    mask = cv2.erode(mask, kernel, iterations = 1)
+    mask = cv2.dilate( mask, kernel, iterations = 3)
+    contours, _ =  cv2.findContours( mask ,cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+    #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    #heads = head_cascade.detectMultiScale(gray)
     newCentroid = 0
     #Start line boundary
     boundary1, boundary2 = boundary()
@@ -160,12 +166,13 @@ while cap.isOpened():
     cv2.line(frame, boundary1, boundary2, (0,0,255), 2)
     cv2.putText(frame, "Entry Line", (350,250), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255), lineType=cv2.LINE_AA)
     #print(heads)
-    if heads ==():
+    if contours ==():
         newCentroid = [(-1,-1)]
         ct.update(newCentroid)
-    for head in heads:
+    for contour in contours:
+        #print(contour)
         #print(head)
-        x,y,w,h = head
+        x,y,w,h = cv2.boundingRect(contour)
         if w*h > area_of_detection:
             cx = (x+w)/2
             cy = (y+h)/2
@@ -176,14 +183,14 @@ while cap.isOpened():
             font = cv2.FONT_HERSHEY_PLAIN
             cv2.rectangle(frame, (x,y), (x+w,y+h),(0,0,255),2)
             cv2.putText(frame, label, (int(cx),int(cy)), font, 3, (0,255,0), 2, lineType=cv2.LINE_AA)
-            roi_gray = gray[y:y+h, x:x+w]
+            #roi_gray = gray[y:y+h, x:x+w]
             roi_color = frame[y:y+h, x:x+w]
         elif w*h < 20000:
             newCentroid = [(-1,-1)]
             ct.update(newCentroid)
         #print('detected',counter)
-        print('points',ct.Centroids)
-        print('prev',ct.centroidPrevPosition)
+        #print('points',ct.Centroids)
+        #print('prev',ct.centroidPrevPosition)
         #print('lost',ct.lostCentroids)
     
     availability = 'Availabile seats: '+str(ct.availability)

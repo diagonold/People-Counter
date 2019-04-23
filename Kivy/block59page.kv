@@ -1,0 +1,82 @@
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+
+<block59pageWindow>:
+    id: main59
+
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'black.png'
+
+    Button:
+        id: backbutton
+        size_hint: 0.08, 0.08
+        pos_hint: {'x':0, 'bottom': 0}
+        text: '<'
+        color: 0,0,0,16
+        font_size: 70
+        background_normal: 'Buttonphoto.png'
+        on_press:
+            root.parent.parent.transition = SlideTransition(direction = 'right')
+            root.homepageee()
+
+    Label:
+        text: 'BLOCK 59'
+        color: 1,1,1,1
+        size_hint: 1, 0.10
+        text_size: self.size
+        halign: "center"
+        valign: 'center'
+        font_size: (self.width/30)
+        pos_hint: {'x':0, 'top':1}
+    Button:
+        id: rec_room
+        text: "Recreation Rooms"
+        color: 0,0,0,1
+        size_hint: 1, 0.16
+        pos_hint: {'x':0, 'top':0.9}
+        background_normal: 'photo1.png'
+    Button:
+        id: meeting_59_parent
+        text: 'Meeting Rooms'
+        color: 0,0,0,1
+        size_hint: 1, 0.16
+        pos_hint: {"x":0, "top":0.730}
+        background_normal: 'photo2.png'
+        on_release: root.button3shiftDOWN()
+        on_release: meeting59.open(self)
+
+        Widget:
+            on_parent: meeting59.dismiss()
+            meeting59: meeting59.__self__
+
+            DropDown:
+                id: meeting59
+                on_dismiss: root.button3shiftUP()
+
+                Label:
+                    text: 'Available Seats'
+                    halign: 'right'
+                    size_hint_y: None
+                    height: 45
+
+                Label:
+                    id: firstlabel
+                    text: ''
+                    size_hint_y: None
+                    height: 45
+
+                Label:
+                    id: secondlabel
+                    text: ''
+                    size_hint_y: None
+                    height: 45
+
+    Button:
+        id: study_59_parent
+        text: 'Study Rooms'
+        color: 0,0,0,1
+        size_hint: 1, 0.16
+        pos_hint: {"x":0, "top":0.60}
+        background_normal: 'photo3.png'

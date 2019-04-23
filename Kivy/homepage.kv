@@ -1,0 +1,70 @@
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+
+<homepage_>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'black.png'
+    Label:
+        text: 'CHOOSE A BUILDING'
+        size_hint: 1, 0.10
+        color: 1,1,1,1
+        halign: "center"
+        valign: 'center'
+        font_size: (self.width/30)
+        pos_hint: {'x':0, 'top':1}
+    Button:
+        text: "BUILDING 1"
+        color: 1,1,1,1
+        size_hint: 1, 0.16
+        pos_hint: {'x':0, 'top':0.90}
+        background_normal:  'photo1.png'
+    Button:
+        text: "BUILDING 2"
+        color: 1,1,1,1
+        size_hint: 1, 0.16
+        pos_hint: {'x':0, 'top':0.730}
+        background_normal: 'photo2.png'
+    Button:
+        id: Hostel_Housing
+        text: 'HOSTEL/HOUSING'
+        color: 1,1,1,1
+        size_hint: 1, 0.16
+        pos_hint: {'x':0, 'top':0.56}
+        background_normal: 'photo3.png'
+        on_release: blocks.open(self)
+
+        Widget:
+            on_parent: blocks.dismiss()
+            blocks: blocks.__self__
+
+            DropDown:
+                id: blocks
+                Button:
+                    text: 'Block 55'
+                    color: 0.2,0.2,0.2,1
+                    size_hint_y: None
+                    height: '48dp'
+                    background_normal: 'drop1.png'
+                    #on_press: Hosteldropdown.select('First Item')
+
+                Button:
+                    text: 'Block 57'
+                    color: 0,0,0,1
+                    size_hint_y: None
+                    height: '48dp'
+                    background_normal: 'drop2.png'
+                    #on_press: Hosteldropdown.select('Second Item')
+
+                Button:
+                    text: 'Block 59'
+                    color: 0,0,0,1
+                    #0.8,0.8,0.8,1
+                    size_hint_y: None
+                    height: '48dp'
+                    background_normal: 'drop3.png'
+                    on_press:
+                        root.parent.parent.transition = SlideTransition(direction = 'left')
+                        root.block59_page()
+                    on_release: blocks.dismiss()
