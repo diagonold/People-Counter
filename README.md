@@ -9,6 +9,7 @@ Kivy
 $pip install kivy
 
 Numpy
+
 $pip install numpy
 
 Opencv2
