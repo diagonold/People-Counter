@@ -1,6 +1,12 @@
 # People-Counter
 Repository for 1D Digital World 2019. 
 
+Uses MOGbackground subtractor to detect changes in a room. Sends these data to a firebase. These data are grabbed by kivy and is shown to the user.
+
+Future improvements:
+1. use of YOLO if camera and computer is better.
+2. Kivy can be used on phone. 
+
 
 Make sure to install necessary packages:
 
